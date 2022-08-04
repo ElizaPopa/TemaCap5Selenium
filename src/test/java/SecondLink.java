@@ -15,7 +15,6 @@ public class SecondLink {
 
         WebElement buttonAttributes = driver.findElement(By.cssSelector("div .centered button"));
         buttonAttributes.click();
-        buttonAttributes.getText();
         System.out.println(buttonAttributes.getAttribute("nextid"));
         System.out.println(buttonAttributes.getAttribute("custom-1"));
 
