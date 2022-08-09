@@ -1,5 +1,5 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -15,13 +15,20 @@ public class SecondLink {
 
         WebElement buttonAttributes = driver.findElement(By.cssSelector("div .centered button"));
         buttonAttributes.click();
-        System.out.println(buttonAttributes.getAttribute("nextid"));
-        System.out.println(buttonAttributes.getAttribute("custom-1"));
+        System.out.println(paragraph4.getAttribute("nextid"));
+        System.out.println(paragraph4.getAttribute("custom-1"));
+
+//        List<WebElement> attributesList = (List<WebElement>) driver.findElement(By.cssSelector("div .centered button"));
+//        for (int i = 0; i < attributesList.size(); i++) {
+//            WebElement att = attributesList.get(i);
+//        if (i == 0) {
+//            System.out.println(attributesList.get(0).getText());
+//        } else
+//            System.out.println((i + 1) + attributesList.get(1).getText());
+//        }
 
 
-
-
-        driver.close();
+            driver.close();
         driver.quit();
     }
 }
