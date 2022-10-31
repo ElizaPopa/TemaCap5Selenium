@@ -1,12 +1,14 @@
 package org.example;
 
-import org.checkerframework.checker.signature.qual.FieldDescriptor;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 
 public class ElementsPage extends BasePage {
     String url = "https://demoqa.com/elements";
@@ -36,6 +38,8 @@ public class ElementsPage extends BasePage {
     private WebElement yesButton;
     @FindBy(className = "text-success")
     private WebElement yesAgain;
+    @FindBy(xpath = "//span[normalize-space()='Web Tables']")
+    private WebElement webTablesButton;
     @FindBy(xpath = "//button[@id='addNewRecordButton']")
     private WebElement addButton;
     @FindBy(xpath = "//input[@id='firstName']")
@@ -44,6 +48,20 @@ public class ElementsPage extends BasePage {
     private WebElement lastName;
     @FindBy(xpath = "//input[@id='age']")
     private WebElement ageField;
+    @FindBy(id = "doubleClickBtn")
+    private WebElement doubleClick;
+    @FindBy(id = "doubleClickMessage")
+    private WebElement afterDoubleClick;
+    @FindBy(id = "rightClickBtn")
+    private WebElement rightClick;
+    @FindBy(id = "rightClickMessage")
+    private WebElement afterRightClick;
+    @FindBy(id = "bad-request")
+    private WebElement badRequest;
+    @FindBy(id = "linkResponse")
+    private WebElement requestMessage;
+    @FindBy(linkText = "Home")
+    private WebElement linksButton;
     public ElementsPage(ChromeDriver driver) {
         super(driver);
     }
@@ -77,12 +95,36 @@ public class ElementsPage extends BasePage {
 
     public void webTablesField() {
         driver.get(url);
-
+        driver.manage().window().maximize();
+        FluentWait wait = new FluentWait<>(driver);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[normalize-space()='Web Tables']")));
+        webTablesButton.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@id='addNewRecordButton']")));
         addButton.click();
         firstName.sendKeys("Lexie");
         lastName.sendKeys("Grey");
         ageField.sendKeys("32");
         submitButton.click();
         System.out.println("You need to add also email, Salary and Department");
+    }
+
+    public void buttonsField() {
+        driver.get("https://demoqa.com/buttons");
+        Actions actions = new Actions(driver);
+        actions.doubleClick(doubleClick).perform();
+        System.out.println(afterDoubleClick.getText());
+        actions.contextClick(rightClick).perform();
+        System.out.println(afterRightClick.getText());
+    }
+
+    public void linksField() {
+        driver.get("https://demoqa.com/links");
+        try {
+            badRequest.click();
+        } catch (ElementClickInterceptedException ex) {
+            System.out.println("Element interceptat");
+        }
+        System.out.println(requestMessage.getText());
+        linksButton.click();
     }
 }
